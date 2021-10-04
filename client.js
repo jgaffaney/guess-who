@@ -41,6 +41,9 @@ function checkPlayer() {
     console.log(selection.pers.name);
     if(selection.pers.name === clickedPlayer){
         alert("Success! You are right!")
+        clickedPlayer = generatePlayer();
+        $(`h2`).text(`Click on: ${clickedPlayer}`);
+
     } else {
         alert("Try again!")
     }
