@@ -6,12 +6,18 @@ function readyNow() {
 
     $(`body`).append(`<h2 >Click on: ${generatePlayer()}</h2>`);
    
-    for(let person of people) {
-        $('body').append(`
-        <div class="picDiv"><img src="https://github.com/${person.githubUsername}.png?size=250" alt="Photo of ${person.name}"></div>
+    for (let person of people) {
+        let pic = $(`
+        <div class="picDiv" data-person="${person}"><img src="https://github.com/${person.githubUsername}.png?size=250" alt="Photo of ${person.name}"></div>
     
-    `);
+    `)
+        $('body').append(pic);
+        pic.data(`pers`, person);
+        console.log(pic);
+
     }
+
+
     generatePlayer();
 
 
