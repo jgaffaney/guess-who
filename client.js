@@ -3,35 +3,50 @@ $(readyNow);
 
 let clickedPlayer = generatePlayer();
 
+//random number generator
+function randomNumber(min, max){
+    return Math.floor(Math.random() * (1 + max - min) + min);
+}
+
 function readyNow() {
     $(`body`).on(`click`, `.picDiv`, checkPlayer);
 
-    $(`body`).append(`<h2 >Click on: ${clickedPlayer}</h2>`);
-   
-    for (let person of people) {
-        let pic = $(`
-        <div class="picDiv" data-person="${person}"><img src="https://github.com/${person.githubUsername}.png?size=250" alt="Photo of ${person.name}"></div>
+    $(`header`).append(`<h2 >Click on: ${clickedPlayer}</h2>`);
+     
+    //render the playingField div
+    render();
+    console.log('people in readyNow after render', people);
+}
+
+function render() {
+    //make a clone of people to avoid a memory reference
+    let workingArray = [...people];
     
-    `)
-        $('body').append(pic);
+    //empty the playing field
+    $('#playingField').empty();
 
-        pic.data(`pers`, person);
-        console.log(pic);
+    //loop through a working array randomly, append the playingField, remove that person from the cloned array
+    while(workingArray.length > 0) {
+        let index = randomNumber(0, workingArray.length-1);
+        console.log('current pers', workingArray[index]);
+        
+        let pic = $(`
+            <div class="picDiv" data-person="${workingArray[index]}"><img src="https://github.com/${workingArray[index].githubUsername}.png?size=250" alt="Photo of ${workingArray[index].name}"></div>
+        `)
+        $('#playingField').append(pic);
 
-    }
-
-
-    generatePlayer();
-
-
+        //add .data() info for later use
+        pic.data('pers', workingArray[index]);
+        workingArray.splice(index, 1)
+            }
+    console.log('finished');
 }
 
 function generatePlayer() {
-    function randomNumber(min, max){
-        return Math.floor(Math.random() * (1 + max - min) + min);
-    }
+    console.log('people in generatePlayer', people);
+    
     let player = people[randomNumber(0, people.length -1)].name;
-    // console.log(player);
+    console.log('player', player);
     return player;
     
 }
@@ -48,5 +63,6 @@ function checkPlayer() {
         alert("Try again!")
     }
     console.log('CLICKED PIC');
+    render();
     
 }
