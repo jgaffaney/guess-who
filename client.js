@@ -1,10 +1,12 @@
 console.log('Here are all the available people:', people);
 $(readyNow);
 
+let clickedPlayer = generatePlayer();
+
 function readyNow() {
     $(`body`).on(`click`, `.picDiv`, checkPlayer);
 
-    $(`body`).append(`<h2 >Click on: ${generatePlayer()}</h2>`);
+    $(`body`).append(`<h2 >Click on: ${clickedPlayer}</h2>`);
    
     for (let person of people) {
         let pic = $(`
@@ -12,6 +14,7 @@ function readyNow() {
     
     `)
         $('body').append(pic);
+
         pic.data(`pers`, person);
         console.log(pic);
 
@@ -34,6 +37,16 @@ function generatePlayer() {
 }
 
 function checkPlayer() { 
+    let selection = $(this).closest(`div`).data();
+    console.log(selection.pers.name);
+    if(selection.pers.name === clickedPlayer){
+        alert("Success! You are right!")
+        clickedPlayer = generatePlayer();
+        $(`h2`).text(`Click on: ${clickedPlayer}`);
+
+    } else {
+        alert("Try again!")
+    }
     console.log('CLICKED PIC');
     
 }
